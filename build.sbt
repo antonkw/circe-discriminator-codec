@@ -6,13 +6,15 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 name := "circe-tagged-adt-codec-root"
 
-ThisBuild / version := "0.10.0"
+ThisBuild / version := "0.0.7-SNAPSHOT"
 
 ThisBuild / versionScheme := Some("semver-spec")
 
-ThisBuild / organization := "org.latestbit"
+ThisBuild / organization := "io.github.antonkw"
 
-ThisBuild / homepage := Some( url( "https://github.com/abdolence/circe-tagged-adt-codec" ) )
+ThisBuild / homepage := Some( url( "https://github.com/antonkw/circe-discriminator-codec" ) )
+sonatypeCredentialHost := "s01.oss.sonatype.org"
+sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
 
 ThisBuild / licenses := Seq(
   (
@@ -28,7 +30,7 @@ ThisBuild / scalaVersion := (ThisBuild / crossScalaVersions).value.head
 ThisBuild / exportJars := true
 
 ThisBuild / publishTo := {
-  val nexus = "https://oss.sonatype.org/"
+  val nexus = "https://s01.oss.sonatype.org/"
   if (isSnapshot.value)
     Some( "snapshots" at nexus + "content/repositories/snapshots" )
   else
@@ -37,22 +39,22 @@ ThisBuild / publishTo := {
 
 ThisBuild / pomExtra := (
   <scm>
-	<url>https://github.com/abdolence/circe-tagged-adt-codec</url>
-	<connection>scm:git:https://github.com/abdolence/circe-tagged-adt-codec</connection>
-	<developerConnection>scm:git:https://github.com/abdolence/circe-tagged-adt-codec</developerConnection>
+	<url>https://github.com/antonkw/circe-discriminator-codec</url>
+	<connection>scm:git:https://github.com/antonkw/circe-discriminator-codec</connection>
+	<developerConnection>scm:git:https://github.com/antonkw/circe-discriminator-codec</developerConnection>
   </scm>
   <developers>
 	<developer>
-	<id>abdulla</id>
-	<name>Abdulla Abdurakhmanov</name>
-	<url>https://abdolence.dev</url>
+	<id>antonkw</id>
+	<name>Anton Kovalevsky</name>
+	<url>https://antonkw.github.io</url>
 	</developer>
   </developers>
 )
 
 ThisBuild / resolvers ++= Seq(
   "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/",
-  "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases/"
+  "Sonatype OSS Releases" at "https://s01.oss.sonatype.org/content/repositories/releases/"
 )
 
 def baseScalacOptions(scalaVersionStr: String) = Seq(
@@ -96,7 +98,8 @@ val baseJvmDependencies =
   Seq(
     "io.circe" %% "circe-core",
     "io.circe" %% "circe-generic",
-    "io.circe" %% "circe-parser"
+    "io.circe" %% "circe-parser",
+    "io.circe" %% "circe-generic-extras"
   ).map( _ % circeVersion ) ++
     Seq(
       "org.scalactic" %% "scalactic",
@@ -108,7 +111,8 @@ val baseJsDependencies =
     Seq(
       "io.circe" %%% "circe-core",
       "io.circe" %%% "circe-generic",
-      "io.circe" %%% "circe-parser"
+      "io.circe" %%% "circe-parser",
+      "io.circe" %%% "circe-generic-extras"
     ).map( _ % circeVersion ) ++
       Seq(
         "org.scalactic" %%% "scalactic",
